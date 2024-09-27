@@ -39,6 +39,12 @@ public class BasicOperations {
 		String[] arr_search_2 = { "a", "b", "c", "d", "e" };
 		System.out.println(search(arr_search_2, 3));
 
+		// search by value return index
+		Integer[] arr_search_by_value_return_index = { 1, 2, 3, 4, 5 };
+		System.out.println(searchByValueReturnIndex(arr_search_by_value_return_index, 2));
+		String[] arr_search_by_value_return_index_2 = { "a", "b", "c", "d", "e" };
+		System.out.println(searchByValueReturnIndex(arr_search_by_value_return_index_2, "d"));
+
 		// measure execution time between loop and arrayCopy - insertion
 		measureExecutionTimeAndPrint(() -> {
 			Random random = new Random();
@@ -66,7 +72,6 @@ public class BasicOperations {
 			return arr;
 		});
 
-
 		// measure execution time between loop and arrayCopy - insertion 2
 		measureExecutionTimeAndPrint(() -> {
 			Random random = new Random();
@@ -93,10 +98,12 @@ public class BasicOperations {
 
 			return arr;
 		});
-
 	}
 
-	private static <T> T[] insert(T[] arr, int index, T element) {
+	public static <T> T[] insert(T[] arr, int index, T element) {
+		if (index < 0 || index > arr.length) {
+			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds!");
+		}
 		T[] newArr = Arrays.copyOf(arr, arr.length + 1);
 		System.arraycopy(arr, 0, newArr, 0, index);
 		newArr[index] = element;
@@ -104,7 +111,10 @@ public class BasicOperations {
 		return newArr;
 	}
 
-	private static <T> T[] insert2(T[] arr, int index, T element) {
+	public static <T> T[] insert2(T[] arr, int index, T element) {
+		if (index < 0 || index > arr.length) {
+			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds!");
+		}
 		T[] newArr = Arrays.copyOf(arr, arr.length + 1);
 		for (int i = 0; i < arr.length + 1; i++) {
 			if (i < index) {
@@ -118,14 +128,20 @@ public class BasicOperations {
 		return newArr;
 	}
 
-	private static <T> T[] delete(T[] arr, int index) {
+	public static <T> T[] delete(T[] arr, int index) {
+		if (index < 0 || index >= arr.length) {
+			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds!");
+		}
 		T[] newArr = Arrays.copyOf(arr, arr.length - 1);
 		System.arraycopy(arr, 0, newArr, 0, index);
 		System.arraycopy(arr, index + 1, newArr, index, arr.length - index - 1);
 		return newArr;
 	}
 
-	private static <T> T[] delete2(T[] arr, int index) {
+	public static <T> T[] delete2(T[] arr, int index) {
+		if (index < 0 || index >= arr.length) {
+			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds!");
+		}
 		T[] newArr = Arrays.copyOf(arr, arr.length - 1);
 		for (int i = 0; i < arr.length; i++) {
 			if (i < index) {
@@ -137,12 +153,16 @@ public class BasicOperations {
 		return newArr;
 	}
 
-	private static <T> T search(T[] arr, int index) {
+	public static <T> T search(T[] arr, int index) {
+		return arr[index];
+	}
+
+	public static <T> int searchByValueReturnIndex(T[] arr, T value) {
 		for (int i = 0; i < arr.length; i++) {
-			if (i == index) {
-				return arr[i];
+			if (arr[i].equals(value)) {
+				return i;
 			}
 		}
-		return null;
+		return -1;
 	}
 }
